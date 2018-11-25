@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:kkrpc="rpc.xsd"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	rpc.xsd rpc.xsd">
+	
+	<kkrpc:application id="myapp" appname="test" author="wqj" appversion="1.0.0"></kkrpc:application>
+		
+	<kkrpc:registry id="myregistry" address="10.0.3.239:2181" connecttimeout="10000" sessiontimeout="30000"></kkrpc:registry>
+	
+	<kkrpc:consumer timeout="8000" retries="3" loadbalance="roundrobin" cluster="failover" async="false"
+	filter="ooo,ppp" listener="ttt,qqq" heartbeat="30000" heartbeattimeout="90000" version="1.0.0" connections="1"
+	sticky="false" reconnect="1000" application="myapp" registry="myregistry" group="api" iprouter="10.0.0.*"
+	host="10.0.0.2" port="2345" connecttimeout="3000" monitor="mymonitor"></kkrpc:consumer>
+	
+	<kkrpc:provider timeout="8000" retries="3" loadbalance="roundrobin" cluster="failover" async="false"
+	filter="ooo,ppp" listener="ttt,qqq" heartbeat="30000" heartbeattimeout="90000" version="1.0.0" 
+	application="myapp" registry="myregistry" host="10.0.0.2" port="2345" group="api" tps="10000" tpsinterval="60000"
+	workerthreads="8" iothreads="6" queuesize="10000" monitor="mymonitor"></kkrpc:provider>
+	
+	<bean id="calcImp" class="com.melot.module.kkrpc.config.CalculatorImpl"></bean>
+	
+	<kkrpc:service id="calc" interface="com.melot.module.kkrpc.config.Calculator" target="calcImp" host="10.0.3.108" port="2345">
+	 	<kkrpc:method name="getKey" retries="5" timeout="3000"></kkrpc:method>
+		<kkrpc:method name="getName" retries="4" timeout="1000" cache="true" cachesize="1000" cachettl="300"></kkrpc:method>
+	</kkrpc:service>
+	
+	<kkrpc:monitor name="mymonitor" interval="300000" timeout="8000" loadbalance="roundrobin"></kkrpc:monitor>
+</beans>

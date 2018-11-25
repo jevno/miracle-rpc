@@ -1,0 +1,11 @@
+monitor=com.miracle.module.rpc.core.api.wrapper.filter.MonitorFilter
+echo=com.miracle.module.rpc.core.api.wrapper.filter.EchoFilter
+tps=com.miracle.module.rpc.core.api.wrapper.filter.TpsLimitFilter
+accesslog=com.miracle.module.rpc.core.api.wrapper.filter.AccessLogFilter
+status=com.miracle.module.rpc.core.api.wrapper.filter.RpcStatusFilter
+circuitbreaker=com.miracle.module.rpc.core.api.wrapper.filter.CircuitBreakerFilter
+cache=com.miracle.module.rpc.core.api.wrapper.filter.CacheFilter
+cattrace=com.miracle.module.rpc.core.api.wrapper.filter.CatTraceFilter
+degrade=com.miracle.module.rpc.core.api.wrapper.filter.DegradeFilter
+semaphore=com.miracle.module.rpc.core.api.wrapper.filter.SemaphoreIsolationFilter
+context=com.miracle.module.rpc.core.api.wrapper.filter.ContextFilter
