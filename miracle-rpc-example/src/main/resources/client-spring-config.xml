@@ -2,21 +2,19 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:kkrpc="http://www.kktv1.com/schema/kkrpc"
+	xmlns:mrpc="http://www.miracle.com/schema/rpc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.kktv1.com/schema/kkrpc http://www.kktv1.com/schema/kkrpc/kkrpc.xsd">
+	http://www.miracle.com/schema/rpc http://www.miracle.com/schema/rpc/rpc.xsd">
 	
-	<kkrpc:application id="myapp" appname="clientDemo" author="wqj" appversion="1.0.0"></kkrpc:application>
+	<mrpc:application id="myapp" appname="clientDemo" author="wqj" appversion="1.0.0"></mrpc:application>
 		
-	<kkrpc:registry id="myregistry" address="10.0.3.239:2181" connecttimeout="10000" sessiontimeout="30000"></kkrpc:registry>
-	
-	<!-- <kkrpc:monitor name="mymonitor" interval="30000" timeout="8000" loadbalance="roundrobin"></kkrpc:monitor> -->
-	
-	<kkrpc:consumer timeout="8000" retries="3" loadbalance="roundrobin" filter="" cluster="failover" heartbeat="60000" 
+	<mrpc:registry id="myregistry" address="10.200.**.**:2181" connecttimeout="10000" sessiontimeout="30000"></mrpc:registry>
+
+	<mrpc:consumer timeout="8000" retries="3" loadbalance="roundrobin" filter="" cluster="failover" heartbeat="60000"
 	heartbeattimeout="180000" version="1.0.0" connections="1" application="myapp" registry="myregistry" group="api"
-	connecttimeout="3000"></kkrpc:consumer>
+	connecttimeout="3000"></mrpc:consumer>
 	
-	<kkrpc:reference id="myCalc" interface="org.kkrpc.example.Calculator"></kkrpc:reference>
+	<mrpc:reference id="myCalc" interface="org.kkrpc.example.Calculator"></mrpc:reference>
 	
 	<bean id="mydao" class="org.kkrpc.example.spring.CalcDao">
 		<property name="tool" ref="myCalc" />

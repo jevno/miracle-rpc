@@ -2,34 +2,30 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:kkrpc="http://www.kktv1.com/schema/kkrpc"
+	xmlns:mrpc="http://www.miracle.com/schema/rpc"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	http://www.kktv1.com/schema/kkrpc http://www.kktv1.com/schema/kkrpc/kkrpc.xsd">
+	http://www.miracle.com/schema/rpc http://www.miracle.com/schema/rpc/rpc.xsd">
 	
-	<kkrpc:application id="myapp" appname="serverDemo" author="wqj" appversion="1.0.0"></kkrpc:application>
+	<mrpc:application id="myapp" appname="serverDemo" author="wqj" appversion="1.0.0"></mrpc:application>
 		
-	<kkrpc:registry id="myregistry" address="10.0.3.239:2181" connecttimeout="10000" sessiontimeout="30000"></kkrpc:registry>
+	<mrpc:registry id="myregistry" address="10.200.**.**:2181" connecttimeout="10000" sessiontimeout="30000"></mrpc:registry>
 	
-	<!-- <kkrpc:monitor name="mymonitor" interval="30000" timeout="8000" loadbalance="roundrobin"></kkrpc:monitor> -->
+
+	<mrpc:provider timeout="8000" retries="3" heartbeat="60000" heartbeattimeout="180000" version="1.0.0"
+	application="myapp" registry="myregistry" host="10.200.*.*" port="2345" group="*" filter="accesslog"></mrpc:provider>
 	
-	<kkrpc:provider timeout="8000" retries="3" heartbeat="60000" heartbeattimeout="180000" version="1.0.0" 
-	application="myapp" registry="myregistry" host="10.0.3.*" port="2345" group="*" filter="tps,accesslog" tps="10000"
-	workerthreads="8" iothreads="6" queuesize="10000"></kkrpc:provider>
-	
-	<kkrpc:consumer timeout="8000" retries="3" loadbalance="roundrobin" cluster="failover" heartbeat="60000" filter="monitor"
+	<mrpc:consumer timeout="8000" retries="3" loadbalance="roundrobin" cluster="failover" heartbeat="60000" filter="monitor"
 	heartbeattimeout="180000" version="1.0.0" connections="1" application="myapp" registry="myregistry" group=""
-	connecttimeout="3000"></kkrpc:consumer>
+	connecttimeout="3000"></mrpc:consumer>
 	
-	<kkrpc:reference id="myColl" injvm="true" interface="org.kkrpc.example.RemoteCollection"></kkrpc:reference>
+	<mrpc:reference id="myColl" injvm="true" interface="org.kkrpc.example.RemoteCollection"></mrpc:reference>
 	
 	<bean id="collImp" class="org.kkrpc.example.RemoteCollectionImpl" ></bean>
-	<kkrpc:service interface="org.kkrpc.example.RemoteCollection" target="collImp"></kkrpc:service>
+	<mrpc:service interface="org.kkrpc.example.RemoteCollection" target="collImp"></mrpc:service>
 	
 	<bean id="calcImp" class="org.kkrpc.example.CalculatorImpl">
 		<property name="coll" ref="myColl"></property>
 	</bean>
-	<kkrpc:service interface="org.kkrpc.example.Calculator" target="calcImp"></kkrpc:service>
-	
+	<mrpc:service interface="org.kkrpc.example.Calculator" target="calcImp"></mrpc:service>
 
-	
 </beans>
